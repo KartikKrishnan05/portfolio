@@ -1,0 +1,119 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  background: #050a10;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Floating camera toggle button ────────────────────────── */
+.cam-toggle {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(80, 200, 255, 0.35);
+  background: rgba(4, 15, 30, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: rgba(120, 200, 255, 0.85);
+  font-family: system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.cam-toggle:hover {
+  border-color: rgba(80, 200, 255, 0.75);
+  box-shadow: 0 0 18px rgba(80, 200, 255, 0.2);
+  color: rgba(160, 230, 255, 1);
+}
+
+.cam-toggle.cam-on {
+  border-color: rgba(80, 200, 255, 0.5);
+  box-shadow: 0 0 12px rgba(80, 200, 255, 0.15);
+}
+
+.cam-toggle.cam-off {
+  border-color: rgba(80, 200, 255, 0.2);
+  color: rgba(100, 160, 200, 0.55);
+}
+
+/* ── Expand toggle button ─────────────────────────────────── */
+.expand-toggle {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(80, 200, 255, 0.35);
+  background: rgba(4, 15, 30, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: rgba(120, 200, 255, 0.85);
+  font-family: system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
+  user-select: none;
+}
+.expand-toggle:hover {
+  border-color: rgba(80, 200, 255, 0.75);
+  box-shadow: 0 0 18px rgba(80, 200, 255, 0.2);
+  color: rgba(160, 230, 255, 1);
+}
+.expand-toggle.is-expanded {
+  border-color: rgba(80, 200, 255, 0.5);
+  box-shadow: 0 0 12px rgba(80, 200, 255, 0.15);
+}
+
+/* ── Navigation hint ──────────────────────────────────────── */
+.nav-hint {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(100, 180, 255, 0.45);
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ── Status line (loading / error only) ───────────────────── */
+.status {
+  position: fixed;
+  bottom: 90px;
+  right: 28px;
+  color: rgba(120, 200, 255, 0.6);
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-align: right;
+  pointer-events: none;
+  line-height: 1.6;
+}
+
+.status .error-msg {
+  color: rgba(255, 100, 100, 0.85);
+}
+
+.status small {
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
