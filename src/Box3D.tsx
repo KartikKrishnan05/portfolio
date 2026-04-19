@@ -1,4 +1,5 @@
-import { useEffect, useState, CSSProperties } from 'react';
+import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 import type { HeadPosition } from './useHeadTracker';
 
 // ── Viewport hook ─────────────────────────────────────────────────────────────
