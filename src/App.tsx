@@ -51,6 +51,10 @@ export default function App() {
   const [navState, setNavState] = useState<NavState>('room');
   const [expanded, setExpanded] = useState(false);
   const lockedRef = useRef(false);
+  const expandedRef = useRef(false);
+  const navStateRef = useRef<NavState>('room');
+  useEffect(() => { expandedRef.current = expanded; }, [expanded]);
+  useEffect(() => { navStateRef.current = navState; }, [navState]);
 
   // ── Scroll → navigate between walls ──────────────────────────────────────
   useEffect(() => {
@@ -58,6 +62,11 @@ export default function App() {
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
+      if (expandedRef.current) {
+        const el = document.getElementById(`scroll-${navStateRef.current}`);
+        if (el) el.scrollTop += e.deltaY;
+        return;
+      }
       if (lockedRef.current) return;
 
       const { deltaX, deltaY } = e;
@@ -81,8 +90,37 @@ export default function App() {
       });
     };
 
+    const handleKey = (e: KeyboardEvent) => {
+      const dir: Record<string, keyof typeof NEIGHBOUR | 'room'> = {
+        ArrowRight: 'scrollRight', ArrowLeft: 'scrollLeft',
+        ArrowDown:  'scrollDown',  ArrowUp:   'scrollUp',
+        Escape: 'room',
+      };
+      if (!(e.key in dir)) return;
+      e.preventDefault();
+      if (expandedRef.current) {
+        if (e.key === 'Escape') setExpanded(false);
+        else {
+          const el = document.getElementById(`scroll-${navStateRef.current}`);
+          if (el) el.scrollTop += e.key === 'ArrowDown' ? 120 : e.key === 'ArrowUp' ? -120 : 0;
+        }
+        return;
+      }
+      if (lockedRef.current) return;
+      lockedRef.current = true;
+      setTimeout(() => { lockedRef.current = false; }, 850);
+      setNavState(prev => {
+        if (e.key === 'Escape' || prev !== 'room') return 'room';
+        return NEIGHBOUR[dir[e.key] as keyof typeof NEIGHBOUR];
+      });
+    };
+
     window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKey);
+    };
   }, []);
 
   const { x: navX, y: navY } = NAV_ROTATION[navState];
