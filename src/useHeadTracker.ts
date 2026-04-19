@@ -14,7 +14,7 @@ export type TrackingStatus =
   | 'paused'
   | 'error';
 
-const MODEL_URL = '/weights';
+const MODEL_URL = `${import.meta.env.BASE_URL}weights`;
 let modelLoaded = false; // module-level cache so we only fetch once
 
 function stopVideo(vid: HTMLVideoElement | null) {
